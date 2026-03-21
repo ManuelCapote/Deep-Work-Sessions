@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--border-dark);
+  border-top: none;
+}
+
+.btn {
+  flex: 1;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border-dark);
+  padding: 11px 0;
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, background-color 0.1s;
+}
+
+.btn:last-child {
+  border-right: none;
+}
+
+.btn:hover {
+  color: var(--text);
+  background-color: var(--surface);
+}
+
+.btn.active {
+  color: var(--text);
+  background-color: var(--surface);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}

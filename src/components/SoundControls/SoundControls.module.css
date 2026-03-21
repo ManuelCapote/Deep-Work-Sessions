@@ -1,0 +1,108 @@
+.container {
+  width: 100%;
+  border: 1px solid var(--border-dark);
+  border-top: none;
+}
+
+/* ── Tick row ──────────────────────────────────────────────────────────────── */
+
+.tickRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-dark);
+  background-color: var(--bg);
+}
+
+.rowLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+}
+
+.toggle {
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 3px 10px;
+  background: none;
+  border: 1px solid var(--border-dark);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s;
+}
+
+.toggle.on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Ambient section ───────────────────────────────────────────────────────── */
+
+.ambientSection {
+  background-color: var(--surface);
+}
+
+.ambientHeader {
+  padding: 7px 14px 5px;
+  border-bottom: 1px solid var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.noiseBtn {
+  position: relative;
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 10px 4px;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, background-color 0.1s;
+}
+
+/* Remove right border on every 3rd item */
+.noiseBtn:nth-child(3n) {
+  border-right: none;
+}
+
+/* Remove bottom border on last row (items 7, 8, 9) */
+.noiseBtn:nth-child(n+7) {
+  border-bottom: none;
+}
+
+.noiseBtn:hover {
+  color: var(--text);
+  background-color: var(--border);
+}
+
+.noiseBtn.active {
+  color: var(--accent);
+  background-color: var(--bg);
+}
+
+.hpBadge {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  font-size: 6px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  opacity: 0.7;
+}
+
+.noiseBtn.active .hpBadge {
+  color: var(--accent);
+}

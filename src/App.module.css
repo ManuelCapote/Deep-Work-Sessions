@@ -1,0 +1,101 @@
+/* ── Portrait (base) ─────────────────────────────────────────────────────────
+   Single column, 360px wide. Wrapper divs are transparent block children;
+   their component children stack and connect via border-top: none.
+───────────────────────────────────────────────────────────────────────────── */
+
+.main {
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 1px solid var(--border-dark);
+  background-color: var(--surface);
+}
+
+.brand {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--text);
+}
+
+.version {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+}
+
+/* Wrapper divs have no visual style — they're plain block containers.
+   In portrait they just stack as flex children of .main. */
+.tabWrap,
+.leftPane,
+.rightPane {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ── Landscape ───────────────────────────────────────────────────────────────
+   Two-column grid when viewport is wider than tall.
+   Header + TabSwitcher row span both columns.
+   Left: timer (always visible). Right: tab-driven content.
+───────────────────────────────────────────────────────────────────────────── */
+
+@media (orientation: landscape) {
+  .main {
+    width: min(900px, 98vw);
+    height: min(580px, 98vh);
+    display: grid;
+    grid-template-areas:
+      "header header"
+      "tabs   tabs"
+      "left   right";
+    grid-template-columns: 340px 1fr;
+    grid-template-rows: auto auto 1fr;
+    overflow: hidden;
+  }
+
+  .header  { grid-area: header; }
+
+  .tabWrap {
+    grid-area: tabs;
+  }
+
+  .leftPane {
+    grid-area: left;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--border-dark);
+  }
+
+  .rightPane {
+    grid-area: right;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--border-dark);
+  }
+
+  /* Collapse the double border at the column seam into a single 1px line. */
+  .rightPane > :global(*) {
+    border-left: none;
+  }
+
+  /* Pane containers provide the bottom border; last child doesn't need one. */
+  .leftPane > :global(:last-child),
+  .rightPane > :global(:last-child) {
+    border-bottom: none;
+  }
+}

@@ -1,0 +1,34 @@
+:root {
+  --bg: #f5f0e8;
+  --surface: #ede8df;
+  --border: #c8c0b0;
+  --border-dark: #a09880;
+  --text: #1a1a1a;
+  --text-dim: #7a7060;
+  --accent: #ff4400;
+  --accent-dim: #cc3500;
+  --font: 'Space Mono', monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

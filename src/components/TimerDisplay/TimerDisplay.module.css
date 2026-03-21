@@ -1,0 +1,50 @@
+.wrapper {
+  width: 100%;
+  border: 1px solid var(--border-dark);
+  border-top: none;
+}
+
+.display {
+  padding: 40px 24px 36px;
+  text-align: center;
+  background-color: var(--surface);
+}
+
+.time {
+  font-size: 96px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.running .time {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.82; }
+}
+
+@media (orientation: landscape) {
+  .display {
+    padding: 18px 24px 14px;
+  }
+  .time {
+    font-size: clamp(52px, 9vw, 80px);
+  }
+}
+
+.progressTrack {
+  height: 2px;
+  background-color: var(--border);
+  width: 100%;
+}
+
+.progressBar {
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.5s linear;
+}
