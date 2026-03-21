@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { WorkSession, Todo } from '../types/session';
+import type { WorkSession, Todo, PlanTask } from '../types/session';
 
 const STORAGE_KEY = 'te-pomodoro-sessions';
 
@@ -103,6 +103,21 @@ export function useSessions(cumulativePomodoroCount: number) {
     );
   }, []);
 
+  const startFromPlan = useCallback((
+    name: string,
+    tasks: PlanTask[],
+    targetPomodoros: number,
+  ) => {
+    const todos: Todo[] = tasks.map(t => ({ id: t.id, text: t.text, done: false }));
+    setSessions(prev =>
+      prev.map(s =>
+        s.status === 'active'
+          ? { ...s, name: name.trim() || s.name, todos, targetPomodoros }
+          : s,
+      ),
+    );
+  }, []);
+
   return {
     activeSession,
     archivedSessions,
@@ -112,5 +127,6 @@ export function useSessions(cumulativePomodoroCount: number) {
     addTodo,
     toggleTodo,
     deleteTodo,
+    startFromPlan,
   };
 }

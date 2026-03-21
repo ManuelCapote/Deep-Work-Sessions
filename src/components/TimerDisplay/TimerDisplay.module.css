@@ -5,13 +5,13 @@
 }
 
 .display {
-  padding: 40px 24px 36px;
+  padding: clamp(24px, 6vw, 40px) 24px clamp(20px, 5vw, 36px);
   text-align: center;
   background-color: var(--surface);
 }
 
 .time {
-  font-size: 96px;
+  font-size: clamp(72px, 22vw, 96px);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1;

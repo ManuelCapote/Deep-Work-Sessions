@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTimer } from './hooks/useTimer';
 import { useSounds } from './hooks/useSounds';
 import { useSessions } from './hooks/useSessions';
+import { usePlanning } from './hooks/usePlanning';
 import { TabSwitcher } from './components/TabSwitcher/TabSwitcher';
 import type { AppTab } from './components/TabSwitcher/TabSwitcher';
 import { ModeSelector } from './components/ModeSelector/ModeSelector';
@@ -10,6 +11,7 @@ import { Controls } from './components/Controls/Controls';
 import { SessionCounter } from './components/SessionCounter/SessionCounter';
 import { SoundControls } from './components/SoundControls/SoundControls';
 import { SessionsView } from './components/SessionsView/SessionsView';
+import { PlanningView } from './components/PlanningView/PlanningView';
 import styles from './App.module.css';
 
 function useIsLandscape(): boolean {
@@ -39,8 +41,10 @@ function App() {
 
   const {
     activeSession, archivedSessions, pomodorosInSession,
-    renameSession, finishSession, addTodo, toggleTodo, deleteTodo,
+    renameSession, finishSession, addTodo, toggleTodo, deleteTodo, startFromPlan,
   } = useSessions(sessionCount);
+
+  const { plan, setName, setTargetPomodoros, addTask, removeTask } = usePlanning();
 
   // In landscape: timer is always visible (never hide it)
   const hideTimer = !isLandscape && activeTab !== 'timer';
@@ -86,6 +90,21 @@ function App() {
               onSetNoiseType={setNoiseType}
             />
           </>
+        )}
+        {activeTab === 'plan' && (
+          <PlanningView
+            name={plan.name}
+            targetPomodoros={plan.targetPomodoros}
+            tasks={plan.tasks}
+            onSetName={setName}
+            onSetTargetPomodoros={setTargetPomodoros}
+            onAddTask={addTask}
+            onRemoveTask={removeTask}
+            onStart={() => {
+              startFromPlan(plan.name, plan.tasks, plan.targetPomodoros);
+              setActiveTab('timer');
+            }}
+          />
         )}
         {activeTab === 'sessions' && (
           <SessionsView

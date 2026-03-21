@@ -10,7 +10,13 @@ export interface WorkSession {
   todos: Todo[];
   startPomodoroCount: number;
   finishedPomodoroCount: number; // snapshotted at finish time; 0 when active
+  targetPomodoros?: number;
   status: 'active' | 'finished';
   createdAt: number;   // Date.now()
   finishedAt?: number;
+}
+
+export interface PlanTask {
+  id: string;
+  text: string;
 }

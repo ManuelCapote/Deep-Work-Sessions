@@ -182,7 +182,8 @@
   border: 1px solid var(--border-dark);
   background: none;
   cursor: pointer;
-  padding: 0;
+  padding: 8px;
+  margin: -8px 0;
   flex-shrink: 0;
   transition: background-color 0.1s, border-color 0.1s;
 }
@@ -279,7 +280,7 @@
 
 .archiveList {
   background-color: var(--bg);
-  max-height: 180px;
+  max-height: clamp(140px, 30vh, 300px);
   overflow-y: auto;
 }
 

@@ -4,9 +4,17 @@
 ───────────────────────────────────────────────────────────────────────────── */
 
 .main {
-  width: 360px;
+  width: min(100%, 480px);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .main {
+    width: min(100%, 560px);
+  }
 }
 
 .header {
@@ -40,6 +48,13 @@
   display: block;
 }
 
+/* In portrait, rightPane absorbs remaining height and scrolls internally */
+.rightPane {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
 .hidden {
   display: none;
 }
@@ -50,7 +65,7 @@
    Left: timer (always visible). Right: tab-driven content.
 ───────────────────────────────────────────────────────────────────────────── */
 
-@media (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 600px) {
   .main {
     width: min(900px, 98vw);
     height: min(580px, 98vh);
