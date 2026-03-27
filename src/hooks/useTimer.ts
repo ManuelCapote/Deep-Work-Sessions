@@ -3,11 +3,16 @@ import { playBeep } from '../utils/audio';
 
 export type Mode = 'pomodoro' | 'short' | 'long';
 
-const DURATIONS: Record<Mode, number> = {
+const DEFAULT_DURATIONS: Record<Mode, number> = {
   pomodoro: 25 * 60,
   short: 5 * 60,
   long: 15 * 60,
 };
+
+export interface TimerConfig {
+  durations?: Partial<Record<Mode, number>>;
+  autoAdvance?: boolean;
+}
 
 export interface TimerState {
   mode: Mode;
@@ -24,16 +29,41 @@ export interface TimerActions {
   setMode: (mode: Mode) => void;
 }
 
-export function useTimer(): TimerState & TimerActions {
+export function useTimer(config?: TimerConfig): TimerState & TimerActions {
+  const durations: Record<Mode, number> = {
+    pomodoro: config?.durations?.pomodoro ?? DEFAULT_DURATIONS.pomodoro,
+    short: config?.durations?.short ?? DEFAULT_DURATIONS.short,
+    long: config?.durations?.long ?? DEFAULT_DURATIONS.long,
+  };
+
   const [mode, setModeState] = useState<Mode>('pomodoro');
-  const [secondsLeft, setSecondsLeft] = useState(DURATIONS.pomodoro);
+  const [secondsLeft, setSecondsLeft] = useState(durations.pomodoro);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionCount, setSessionCount] = useState(0);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number | null>(null);
-  const startSecondsRef = useRef<number>(DURATIONS.pomodoro);
+  const startSecondsRef = useRef<number>(durations.pomodoro);
   const modeRef = useRef<Mode>('pomodoro');
+  const autoAdvanceRef = useRef(config?.autoAdvance ?? false);
+  const autoAdvanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const sessionCountRef = useRef(0);
+  const durationsRef = useRef(durations);
+
+  // Keep refs in sync
+  useEffect(() => { autoAdvanceRef.current = config?.autoAdvance ?? false; }, [config?.autoAdvance]);
+  useEffect(() => { sessionCountRef.current = sessionCount; }, [sessionCount]);
+  useEffect(() => { durationsRef.current = durations; });
+
+  // Update secondsLeft when duration changes for current mode (only when idle)
+  const prevDurationRef = useRef(durations[mode]);
+  useEffect(() => {
+    const dur = durations[mode];
+    if (!isRunning && secondsLeft === prevDurationRef.current) {
+      setSecondsLeft(dur);
+    }
+    prevDurationRef.current = dur;
+  }, [durations[mode]]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current !== null) {
@@ -42,31 +72,44 @@ export function useTimer(): TimerState & TimerActions {
     }
   }, []);
 
+  const clearAutoAdvance = useCallback(() => {
+    if (autoAdvanceTimerRef.current !== null) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+  }, []);
+
   const start = useCallback(() => {
     if (isRunning) return;
+    clearAutoAdvance();
     startTimeRef.current = Date.now();
     startSecondsRef.current = secondsLeft;
     setIsRunning(true);
-  }, [isRunning, secondsLeft]);
+  }, [isRunning, secondsLeft, clearAutoAdvance]);
 
   const pause = useCallback(() => {
     clearTimer();
+    clearAutoAdvance();
     setIsRunning(false);
-  }, [clearTimer]);
-
-  const reset = useCallback(() => {
-    clearTimer();
-    setIsRunning(false);
-    setSecondsLeft(DURATIONS[mode]);
-  }, [clearTimer, mode]);
+  }, [clearTimer, clearAutoAdvance]);
 
   const setMode = useCallback((newMode: Mode) => {
     clearTimer();
+    clearAutoAdvance();
     setIsRunning(false);
     setModeState(newMode);
     modeRef.current = newMode;
-    setSecondsLeft(DURATIONS[newMode]);
-  }, [clearTimer]);
+    setSecondsLeft(durationsRef.current[newMode]);
+    prevDurationRef.current = durationsRef.current[newMode];
+  }, [clearTimer, clearAutoAdvance]);
+
+  const reset = useCallback(() => {
+    clearTimer();
+    clearAutoAdvance();
+    setIsRunning(false);
+    setSecondsLeft(durationsRef.current[modeRef.current]);
+    prevDurationRef.current = durationsRef.current[modeRef.current];
+  }, [clearTimer, clearAutoAdvance]);
 
   // Run the interval when isRunning changes
   useEffect(() => {
@@ -83,8 +126,31 @@ export function useTimer(): TimerState & TimerActions {
         setSecondsLeft(0);
         setIsRunning(false);
         playBeep();
-        if (modeRef.current === 'pomodoro') {
+
+        const completedMode = modeRef.current;
+        if (completedMode === 'pomodoro') {
           setSessionCount(prev => prev + 1);
+        }
+
+        // Auto-advance with a short pause
+        if (autoAdvanceRef.current) {
+          autoAdvanceTimerRef.current = setTimeout(() => {
+            let nextMode: Mode;
+            if (completedMode === 'pomodoro') {
+              nextMode = (sessionCountRef.current) % 4 === 0 ? 'long' : 'short';
+            } else {
+              nextMode = 'pomodoro';
+            }
+            setModeState(nextMode);
+            modeRef.current = nextMode;
+            const dur = durationsRef.current[nextMode];
+            setSecondsLeft(dur);
+            prevDurationRef.current = dur;
+            // Auto-start after a brief delay
+            startTimeRef.current = Date.now();
+            startSecondsRef.current = dur;
+            setIsRunning(true);
+          }, 1500);
         }
       } else {
         setSecondsLeft(next);
@@ -103,12 +169,19 @@ export function useTimer(): TimerState & TimerActions {
     return () => { document.title = 'POMODORO'; };
   }, [secondsLeft, mode]);
 
+  // Cleanup auto-advance on unmount
+  useEffect(() => {
+    return () => {
+      clearAutoAdvance();
+    };
+  }, [clearAutoAdvance]);
+
   return {
     mode,
     secondsLeft,
     isRunning,
     sessionCount,
-    totalSeconds: DURATIONS[mode],
+    totalSeconds: durations[mode],
     start,
     pause,
     reset,

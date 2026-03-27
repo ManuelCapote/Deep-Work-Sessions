@@ -6,6 +6,7 @@ interface Props {
   name: string;
   targetPomodoros: number;
   tasks: PlanTask[];
+  workDurationMins?: number;
   onSetName: (name: string) => void;
   onSetTargetPomodoros: (n: number) => void;
   onAddTask: (text: string) => void;
@@ -17,6 +18,7 @@ export function PlanningView({
   name,
   targetPomodoros,
   tasks,
+  workDurationMins = 25,
   onSetName,
   onSetTargetPomodoros,
   onAddTask,
@@ -77,7 +79,7 @@ export function PlanningView({
             +
           </button>
           <span className={styles.stepHint}>
-            ~{targetPomodoros * 25} min
+            ~{targetPomodoros * workDurationMins} min
           </span>
         </div>
       </section>

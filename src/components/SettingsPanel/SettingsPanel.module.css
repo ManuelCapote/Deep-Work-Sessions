@@ -1,0 +1,274 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.panel {
+  width: min(400px, 92vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  background-color: var(--bg);
+  border: 1px solid var(--border-dark);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.panelTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--text);
+}
+
+.closeBtn {
+  font-size: 18px;
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color 0.1s;
+}
+
+.closeBtn:hover {
+  color: var(--text);
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+
+.section {
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionHeader {
+  padding: 8px 14px;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+}
+
+.sectionBody {
+  background-color: var(--surface);
+  padding: 10px 14px;
+}
+
+/* ── Stepper rows ─────────────────────────────────────────────────────────── */
+
+.stepperRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.stepperRow + .stepperRow {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+.stepperLabel {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.stepperControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stepBtn {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: 1px solid var(--border-dark);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.1s, border-color 0.1s;
+  flex-shrink: 0;
+}
+
+.stepBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.stepBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.stepValue {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 28px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.stepSuffix {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-dim);
+  margin-left: 1px;
+}
+
+/* ── Toggle rows ──────────────────────────────────────────────────────────── */
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+
+.toggleLabel {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.toggleBtn {
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 3px 10px;
+  background: none;
+  border: 1px solid var(--border-dark);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s;
+}
+
+.toggleBtn.on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Theme group ──────────────────────────────────────────────────────────── */
+
+.themeGroup {
+  display: flex;
+  gap: 0;
+}
+
+.themeBtn {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 8px 0;
+  background: none;
+  border: 1px solid var(--border-dark);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s, background-color 0.1s;
+}
+
+.themeBtn + .themeBtn {
+  border-left: none;
+}
+
+.themeBtn:hover {
+  color: var(--text);
+}
+
+.themeBtn.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background-color: var(--bg);
+}
+
+/* ── Slider rows ──────────────────────────────────────────────────────────── */
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.sliderRow + .sliderRow {
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  margin-top: 4px;
+}
+
+.sliderLabel {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  min-width: 52px;
+}
+
+.slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 0;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 0;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.sliderValue {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+  min-width: 22px;
+  text-align: right;
+}

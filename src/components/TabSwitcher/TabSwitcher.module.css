@@ -34,4 +34,5 @@
   color: var(--text);
   background-color: var(--surface);
   box-shadow: inset 0 -2px 0 var(--accent);
+  transition: color 0.15s, background-color 0.15s, box-shadow 0.2s;
 }

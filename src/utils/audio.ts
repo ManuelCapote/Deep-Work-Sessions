@@ -1,4 +1,4 @@
-export function playBeep(): void {
+export function playBeep(volume = 0.2): void {
   try {
     const ctx = new AudioContext();
     const osc = ctx.createOscillator();
@@ -10,7 +10,7 @@ export function playBeep(): void {
     osc.type = 'square';
     osc.frequency.setValueAtTime(880, ctx.currentTime);
 
-    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.setValueAtTime(volume, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
 
     osc.start(ctx.currentTime);

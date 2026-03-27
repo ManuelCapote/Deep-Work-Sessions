@@ -5,11 +5,16 @@ import styles from './SoundControls.module.css';
 interface Props {
   tickEnabled: boolean;
   noiseType: NoiseType;
+  masterVolume: number;
   onSetTickEnabled: (v: boolean) => void;
   onSetNoiseType: (t: NoiseType) => void;
+  onSetMasterVolume: (v: number) => void;
 }
 
-export function SoundControls({ tickEnabled, noiseType, onSetTickEnabled, onSetNoiseType }: Props) {
+export function SoundControls({
+  tickEnabled, noiseType, masterVolume,
+  onSetTickEnabled, onSetNoiseType, onSetMasterVolume,
+}: Props) {
   return (
     <div className={styles.container}>
 
@@ -42,6 +47,22 @@ export function SoundControls({ tickEnabled, noiseType, onSetTickEnabled, onSetN
             </button>
           ))}
         </div>
+      </div>
+
+      {/* ── Volume ───────────────────────────────────────────────────────── */}
+      <div className={styles.volumeRow}>
+        <span className={styles.rowLabel}>VOL</span>
+        <input
+          type="range"
+          className={styles.slider}
+          min={0}
+          max={100}
+          value={Math.round(masterVolume * 100)}
+          onChange={e => onSetMasterVolume(Number(e.target.value) / 100)}
+        />
+        <span className={styles.volumeValue}>
+          {Math.round(masterVolume * 100)}
+        </span>
       </div>
 
     </div>

@@ -11,6 +11,17 @@
   --touch-min: 44px;
 }
 
+[data-theme="dark"] {
+  --bg: #1a1916;
+  --surface: #242220;
+  --border: #3a3630;
+  --border-dark: #504a40;
+  --text: #e8e4dc;
+  --text-dim: #9a9080;
+  --accent: #ff5520;
+  --accent-dim: #dd4010;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
