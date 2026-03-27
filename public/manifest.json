@@ -1,0 +1,28 @@
+{
+  "name": "TE POMODORO",
+  "short_name": "Pomodoro",
+  "description": "A beautifully crafted Pomodoro focus timer with ambient soundscapes, session planning, and analytics.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#ff4400",
+  "background_color": "#f5f0e8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "categories": ["productivity", "utilities"]
+}
