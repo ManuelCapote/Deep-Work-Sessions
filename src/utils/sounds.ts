@@ -7,7 +7,8 @@ export type NoiseType =
   | 'storm'
   | 'ocean'
   | 'fire'
-  | 'binaural';
+  | 'binaural'
+  | 'lofi';
 
 export const NOISE_OPTIONS: { key: NoiseType; label: string; hint?: string }[] = [
   { key: 'off',      label: 'OFF' },
@@ -19,6 +20,7 @@ export const NOISE_OPTIONS: { key: NoiseType; label: string; hint?: string }[] =
   { key: 'ocean',    label: 'OCEAN' },
   { key: 'fire',     label: 'FIRE' },
   { key: 'binaural', label: 'BINARL', hint: 'Use headphones for full effect' },
+  { key: 'lofi',     label: 'LO-FI',  hint: 'Synthesized lo-fi beats' },
 ];
 
 // ─── Tick ────────────────────────────────────────────────────────────────────
@@ -96,9 +98,9 @@ export class NoisePlayer {
     this.#masterGain.connect(ctx.destination);
   }
 
-  start(type: Exclude<NoiseType, 'off'>): void {
+  start(type: Exclude<NoiseType, 'off' | 'lofi'>): void {
     this.stop();
-    const methods: Record<Exclude<NoiseType, 'off'>, () => void> = {
+    const methods: Record<Exclude<NoiseType, 'off' | 'lofi'>, () => void> = {
       white:    () => this.#startWhite(),
       pink:     () => this.#startPink(),
       brown:    () => this.#startBrown(),

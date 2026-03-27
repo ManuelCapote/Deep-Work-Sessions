@@ -12,6 +12,7 @@ interface Props {
   onSetMasterVolume: (v: number) => void;
   onSetTickVolume: (v: number) => void;
   onSetDailyGoal: (n: number) => void;
+  onSetFocusMode: (v: boolean) => void;
   onClose: () => void;
 }
 
@@ -91,6 +92,7 @@ export function SettingsPanel({
   onSetMasterVolume,
   onSetTickVolume,
   onSetDailyGoal,
+  onSetFocusMode,
   onClose,
 }: Props) {
   return (
@@ -146,6 +148,11 @@ export function SettingsPanel({
               label="Auto-advance"
               value={settings.autoAdvance}
               onChange={onSetAutoAdvance}
+            />
+            <Toggle
+              label="Focus mode"
+              value={settings.focusMode}
+              onChange={onSetFocusMode}
             />
             <Stepper
               label="Daily goal"

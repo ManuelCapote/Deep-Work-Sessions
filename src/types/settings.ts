@@ -18,6 +18,9 @@ export interface Settings {
   // Tags
   availableTags: string[];
 
+  // Focus
+  focusMode: boolean;
+
   // Goals
   dailyGoal: number; // 0 = disabled
 

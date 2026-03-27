@@ -79,9 +79,14 @@
   border-right: none;
 }
 
-/* Remove bottom border on last row (items 7, 8, 9) */
-.noiseBtn:nth-child(n+7) {
+/* Remove bottom border on last row */
+.noiseBtn:nth-last-child(-n+3) {
   border-bottom: none;
+}
+
+/* Single item on last row — also remove right border */
+.noiseBtn:nth-child(3n+1):last-child {
+  border-right: none;
 }
 
 .noiseBtn:hover {
@@ -106,6 +111,48 @@
 
 .noiseBtn.active .hpBadge {
   color: var(--accent);
+}
+
+/* ── Mix section ──────────────────────────────────────────────────────────── */
+
+.mixSection {
+  border-top: 1px solid var(--border-dark);
+  background-color: var(--surface);
+}
+
+.mixHeader {
+  padding: 6px 14px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.mixRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 6px 10px;
+}
+
+.mixBtn {
+  font-family: var(--font);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 4px 7px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s;
+  margin: 2px;
+}
+
+.mixBtn:hover {
+  color: var(--text);
+}
+
+.mixBtn.mixActive {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 /* ── Volume row ───────────────────────────────────────────────────────────── */

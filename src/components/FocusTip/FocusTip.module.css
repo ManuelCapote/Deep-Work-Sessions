@@ -1,0 +1,11 @@
+.tip {
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 10px 16px;
+  border: 1px solid var(--border-dark);
+  border-top: none;
+  background-color: var(--bg);
+}

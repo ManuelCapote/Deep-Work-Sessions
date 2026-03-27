@@ -2,18 +2,22 @@ import { NOISE_OPTIONS } from '../../utils/sounds';
 import type { NoiseType } from '../../hooks/useSounds';
 import styles from './SoundControls.module.css';
 
+const MIX_OPTIONS = NOISE_OPTIONS.filter(o => o.key !== 'off');
+
 interface Props {
   tickEnabled: boolean;
   noiseType: NoiseType;
+  mixType: NoiseType;
   masterVolume: number;
   onSetTickEnabled: (v: boolean) => void;
   onSetNoiseType: (t: NoiseType) => void;
+  onSetMixType: (t: NoiseType) => void;
   onSetMasterVolume: (v: number) => void;
 }
 
 export function SoundControls({
-  tickEnabled, noiseType, masterVolume,
-  onSetTickEnabled, onSetNoiseType, onSetMasterVolume,
+  tickEnabled, noiseType, mixType, masterVolume,
+  onSetTickEnabled, onSetNoiseType, onSetMixType, onSetMasterVolume,
 }: Props) {
   return (
     <div className={styles.container}>
@@ -48,6 +52,32 @@ export function SoundControls({
           ))}
         </div>
       </div>
+
+      {/* ── Mix row ──────────────────────────────────────────────────────── */}
+      {noiseType !== 'off' && (
+        <div className={styles.mixSection}>
+          <div className={styles.mixHeader}>
+            <span className={styles.rowLabel}>MIX</span>
+          </div>
+          <div className={styles.mixRow}>
+            <button
+              className={`${styles.mixBtn} ${mixType === 'off' ? styles.mixActive : ''}`}
+              onClick={() => onSetMixType('off')}
+            >
+              OFF
+            </button>
+            {MIX_OPTIONS.filter(o => o.key !== noiseType).map(({ key, label }) => (
+              <button
+                key={key}
+                className={`${styles.mixBtn} ${mixType === key ? styles.mixActive : ''}`}
+                onClick={() => onSetMixType(key)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Volume ───────────────────────────────────────────────────────── */}
       <div className={styles.volumeRow}>

@@ -17,6 +17,7 @@ import { SessionsView } from './components/SessionsView/SessionsView';
 import { PlanningView } from './components/PlanningView/PlanningView';
 import { SettingsPanel } from './components/SettingsPanel/SettingsPanel';
 import { StatsView } from './components/StatsView/StatsView';
+import { FocusTip } from './components/FocusTip/FocusTip';
 import { Onboarding } from './components/Onboarding/Onboarding';
 import styles from './App.module.css';
 
@@ -42,7 +43,7 @@ function App() {
     settings,
     setWorkDuration, setShortBreakDuration, setLongBreakDuration,
     setAutoAdvance, setTheme, setNotificationsEnabled,
-    setMasterVolume, setTickVolume, setAvailableTags, setDailyGoal, setOnboardingDismissed,
+    setMasterVolume, setTickVolume, setFocusMode, setAvailableTags, setDailyGoal, setOnboardingDismissed,
   } = useSettings();
 
   const {
@@ -57,7 +58,7 @@ function App() {
     autoAdvance: settings.autoAdvance,
   });
 
-  const { tickEnabled, noiseType, setTickEnabled, setNoiseType } =
+  const { tickEnabled, noiseType, mixType, setTickEnabled, setNoiseType, setMixType } =
     useSounds(isRunning, secondsLeft, {
       master: settings.masterVolume,
       tick: settings.tickVolume,
@@ -115,8 +116,11 @@ function App() {
 
   useKeyboardShortcuts(shortcutActions);
 
+  // Focus mode: hide non-essential UI when timer is running
+  const inFocusMode = settings.focusMode && isRunning;
+
   // In landscape: timer is always visible (never hide it)
-  const hideTimer = !isLandscape && activeTab !== 'timer';
+  const hideTimer = !inFocusMode && !isLandscape && activeTab !== 'timer';
 
   // Next mode indicator for auto-advance
   const nextModeLabel = mode === 'pomodoro'
@@ -124,7 +128,7 @@ function App() {
     : 'WORK';
 
   return (
-    <main className={styles.main}>
+    <main className={`${styles.main} ${inFocusMode ? styles.focusMode : ''}`}>
 
       <header className={styles.header}>
         <span className={styles.brand}>TE POMODORO</span>
@@ -152,6 +156,7 @@ function App() {
           onSetMasterVolume={setMasterVolume}
           onSetTickVolume={setTickVolume}
           onSetDailyGoal={setDailyGoal}
+          onSetFocusMode={setFocusMode}
           onClose={() => setSettingsOpen(false)}
         />
       )}
@@ -161,9 +166,11 @@ function App() {
       )}
 
       {/* TabSwitcher spans full width in both orientations */}
-      <div className={styles.tabWrap}>
-        <TabSwitcher activeTab={activeTab} onSetTab={setActiveTab} />
-      </div>
+      {!inFocusMode && (
+        <div className={styles.tabWrap}>
+          <TabSwitcher activeTab={activeTab} onSetTab={setActiveTab} />
+        </div>
+      )}
 
       {/* LEFT PANE — timer core. Always visible in landscape. */}
       <div className={`${styles.leftPane} ${hideTimer ? styles.hidden : ''}`}>
@@ -182,19 +189,22 @@ function App() {
         {settings.autoAdvance && isRunning && (
           <div className={styles.nextUp}>NEXT: {nextModeLabel}</div>
         )}
+        {isRunning && <FocusTip sessionCount={sessionCount} />}
       </div>
 
       {/* RIGHT PANE — secondary content, driven by active tab */}
-      <div className={styles.rightPane}>
+      <div className={`${styles.rightPane} ${inFocusMode ? styles.hidden : ''}`}>
         {activeTab === 'timer' && (
           <>
             <SessionCounter sessionCount={sessionCount} />
             <SoundControls
               tickEnabled={tickEnabled}
               noiseType={noiseType}
+              mixType={mixType}
               masterVolume={settings.masterVolume}
               onSetTickEnabled={setTickEnabled}
               onSetNoiseType={setNoiseType}
+              onSetMixType={setMixType}
               onSetMasterVolume={setMasterVolume}
             />
           </>
