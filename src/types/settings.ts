@@ -15,6 +15,9 @@ export interface Settings {
   masterVolume: number; // 0–1
   tickVolume: number;   // 0–1
 
+  // Tags
+  availableTags: string[];
+
   // Goals
   dailyGoal: number; // 0 = disabled
 

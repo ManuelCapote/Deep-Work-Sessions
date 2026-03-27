@@ -12,6 +12,7 @@ const DEFAULTS: Settings = {
   notificationsEnabled: false,
   masterVolume: 0.2,
   tickVolume: 0.07,
+  availableTags: ['work', 'study', 'personal', 'coding', 'writing', 'reading'],
   dailyGoal: 0,
   onboardingDismissed: false,
 };
@@ -52,6 +53,7 @@ export function useSettings() {
   const setNotificationsEnabled = useCallback((v: boolean) => update('notificationsEnabled', v), [update]);
   const setMasterVolume = useCallback((v: number) => update('masterVolume', Math.max(0, Math.min(1, v))), [update]);
   const setTickVolume = useCallback((v: number) => update('tickVolume', Math.max(0, Math.min(1, v))), [update]);
+  const setAvailableTags = useCallback((tags: string[]) => update('availableTags', tags), [update]);
   const setDailyGoal = useCallback((n: number) => update('dailyGoal', Math.max(0, Math.min(20, n))), [update]);
   const setOnboardingDismissed = useCallback((v: boolean) => update('onboardingDismissed', v), [update]);
 
@@ -65,6 +67,7 @@ export function useSettings() {
     setNotificationsEnabled,
     setMasterVolume,
     setTickVolume,
+    setAvailableTags,
     setDailyGoal,
     setOnboardingDismissed,
   };

@@ -42,7 +42,7 @@ function App() {
     settings,
     setWorkDuration, setShortBreakDuration, setLongBreakDuration,
     setAutoAdvance, setTheme, setNotificationsEnabled,
-    setMasterVolume, setTickVolume, setDailyGoal, setOnboardingDismissed,
+    setMasterVolume, setTickVolume, setAvailableTags, setDailyGoal, setOnboardingDismissed,
   } = useSettings();
 
   const {
@@ -65,7 +65,8 @@ function App() {
 
   const {
     activeSession, archivedSessions, pomodorosInSession,
-    renameSession, finishSession, addTodo, toggleTodo, deleteTodo, startFromPlan,
+    renameSession, finishSession, addTodo, toggleTodo, deleteTodo,
+    setTags, setNotes, addDistraction, reorderTodos, startFromPlan,
   } = useSessions(sessionCount);
 
   const { plan, setName, setTargetPomodoros, addTask, removeTask } = usePlanning();
@@ -219,11 +220,22 @@ function App() {
             activeSession={activeSession}
             archivedSessions={archivedSessions}
             pomodorosInSession={pomodorosInSession}
+            availableTags={settings.availableTags}
             onRename={renameSession}
             onFinish={finishSession}
             onAddTodo={addTodo}
             onToggleTodo={toggleTodo}
             onDeleteTodo={deleteTodo}
+            onSetTags={setTags}
+            onSetNotes={setNotes}
+            onAddDistraction={addDistraction}
+            onReorderTodos={reorderTodos}
+            onAddTag={(tag: string) => {
+              const t = tag.trim().toLowerCase();
+              if (t && !settings.availableTags.includes(t)) {
+                setAvailableTags([...settings.availableTags, t]);
+              }
+            }}
           />
         )}
         {activeTab === 'stats' && (

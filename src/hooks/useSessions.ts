@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { WorkSession, Todo, PlanTask } from '../types/session';
+import type { WorkSession, Todo, Distraction, PlanTask } from '../types/session';
 
 const STORAGE_KEY = 'te-pomodoro-sessions';
 
@@ -103,6 +103,43 @@ export function useSessions(cumulativePomodoroCount: number) {
     );
   }, []);
 
+  const setTags = useCallback((tags: string[]) => {
+    setSessions(prev =>
+      prev.map(s => s.status === 'active' ? { ...s, tags } : s),
+    );
+  }, []);
+
+  const setNotes = useCallback((notes: string) => {
+    setSessions(prev =>
+      prev.map(s => s.status === 'active' ? { ...s, notes } : s),
+    );
+  }, []);
+
+  const addDistraction = useCallback((text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    const d: Distraction = { id: uid(), text: trimmed, timestamp: Date.now() };
+    setSessions(prev =>
+      prev.map(s =>
+        s.status === 'active'
+          ? { ...s, distractions: [...(s.distractions ?? []), d] }
+          : s,
+      ),
+    );
+  }, []);
+
+  const reorderTodos = useCallback((fromIdx: number, toIdx: number) => {
+    setSessions(prev =>
+      prev.map(s => {
+        if (s.status !== 'active') return s;
+        const todos = [...s.todos];
+        const [moved] = todos.splice(fromIdx, 1);
+        todos.splice(toIdx, 0, moved);
+        return { ...s, todos };
+      }),
+    );
+  }, []);
+
   const startFromPlan = useCallback((
     name: string,
     tasks: PlanTask[],
@@ -127,6 +164,10 @@ export function useSessions(cumulativePomodoroCount: number) {
     addTodo,
     toggleTodo,
     deleteTodo,
+    setTags,
+    setNotes,
+    addDistraction,
+    reorderTodos,
     startFromPlan,
   };
 }
