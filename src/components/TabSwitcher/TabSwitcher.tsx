@@ -1,6 +1,6 @@
 import styles from './TabSwitcher.module.css';
 
-export type AppTab = 'timer' | 'plan' | 'sessions';
+export type AppTab = 'timer' | 'plan' | 'sessions' | 'stats';
 
 interface Props {
   activeTab: AppTab;
@@ -27,6 +27,12 @@ export function TabSwitcher({ activeTab, onSetTab }: Props) {
         onClick={() => onSetTab('sessions')}
       >
         SESSIONS
+      </button>
+      <button
+        className={`${styles.btn} ${activeTab === 'stats' ? styles.active : ''}`}
+        onClick={() => onSetTab('stats')}
+      >
+        STATS
       </button>
     </div>
   );

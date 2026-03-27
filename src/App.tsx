@@ -16,6 +16,7 @@ import { SoundControls } from './components/SoundControls/SoundControls';
 import { SessionsView } from './components/SessionsView/SessionsView';
 import { PlanningView } from './components/PlanningView/PlanningView';
 import { SettingsPanel } from './components/SettingsPanel/SettingsPanel';
+import { StatsView } from './components/StatsView/StatsView';
 import { Onboarding } from './components/Onboarding/Onboarding';
 import styles from './App.module.css';
 
@@ -41,7 +42,7 @@ function App() {
     settings,
     setWorkDuration, setShortBreakDuration, setLongBreakDuration,
     setAutoAdvance, setTheme, setNotificationsEnabled,
-    setMasterVolume, setTickVolume, setOnboardingDismissed,
+    setMasterVolume, setTickVolume, setDailyGoal, setOnboardingDismissed,
   } = useSettings();
 
   const {
@@ -149,6 +150,7 @@ function App() {
           onSetNotificationsEnabled={setNotificationsEnabled}
           onSetMasterVolume={setMasterVolume}
           onSetTickVolume={setTickVolume}
+          onSetDailyGoal={setDailyGoal}
           onClose={() => setSettingsOpen(false)}
         />
       )}
@@ -222,6 +224,12 @@ function App() {
             onAddTodo={addTodo}
             onToggleTodo={toggleTodo}
             onDeleteTodo={deleteTodo}
+          />
+        )}
+        {activeTab === 'stats' && (
+          <StatsView
+            sessions={[...(activeSession ? [activeSession] : []), ...archivedSessions]}
+            dailyGoal={settings.dailyGoal ?? 0}
           />
         )}
       </div>

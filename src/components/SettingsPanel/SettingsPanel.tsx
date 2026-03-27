@@ -11,6 +11,7 @@ interface Props {
   onSetNotificationsEnabled: (v: boolean) => void;
   onSetMasterVolume: (v: number) => void;
   onSetTickVolume: (v: number) => void;
+  onSetDailyGoal: (n: number) => void;
   onClose: () => void;
 }
 
@@ -89,6 +90,7 @@ export function SettingsPanel({
   onSetNotificationsEnabled,
   onSetMasterVolume,
   onSetTickVolume,
+  onSetDailyGoal,
   onClose,
 }: Props) {
   return (
@@ -144,6 +146,14 @@ export function SettingsPanel({
               label="Auto-advance"
               value={settings.autoAdvance}
               onChange={onSetAutoAdvance}
+            />
+            <Stepper
+              label="Daily goal"
+              value={settings.dailyGoal}
+              min={0}
+              max={20}
+              suffix={settings.dailyGoal === 0 ? '' : undefined}
+              onChange={onSetDailyGoal}
             />
           </div>
         </section>

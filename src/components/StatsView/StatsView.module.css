@@ -1,0 +1,168 @@
+.container {
+  width: 100%;
+  border: 1px solid var(--border-dark);
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+
+.section {
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background-color: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-dim);
+}
+
+/* ── Metrics row ──────────────────────────────────────────────────────────── */
+
+.metricsRow {
+  display: flex;
+  background-color: var(--surface);
+}
+
+.metric {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 8px;
+  border-right: 1px solid var(--border);
+}
+
+.metric:last-child {
+  border-right: none;
+}
+
+.metricValue {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.metricLabel {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.positive {
+  color: #22883a;
+}
+
+.negative {
+  color: #cc3500;
+}
+
+/* ── Goal progress ────────────────────────────────────────────────────────── */
+
+.goalRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.goalTrack {
+  flex: 1;
+  height: 4px;
+  background-color: var(--border);
+}
+
+.goalBar {
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.3s ease-out;
+}
+
+.goalBar.goalMet {
+  background-color: #22883a;
+}
+
+.goalLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  min-width: 36px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.goalBar.goalMet + .goalLabel,
+.goalMet ~ .goalLabel {
+  color: #22883a;
+}
+
+/* ── Chart body ───────────────────────────────────────────────────────────── */
+
+.chartBody {
+  padding: 14px;
+  background-color: var(--surface);
+}
+
+/* ── Heatmap body ─────────────────────────────────────────────────────────── */
+
+.heatmapBody {
+  padding: 14px;
+  background-color: var(--surface);
+  overflow-x: auto;
+}
+
+/* ── Export row ────────────────────────────────────────────────────────────── */
+
+.exportRow {
+  display: flex;
+  background-color: var(--surface);
+}
+
+.exportBtn {
+  flex: 1;
+  font-family: var(--font);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 12px 0;
+  min-height: 40px;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.1s, background-color 0.1s;
+}
+
+.exportBtn:last-child {
+  border-right: none;
+}
+
+.exportBtn:hover {
+  color: var(--accent);
+  background-color: var(--bg);
+}
