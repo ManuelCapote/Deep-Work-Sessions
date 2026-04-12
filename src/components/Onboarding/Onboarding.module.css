@@ -34,7 +34,7 @@
 }
 
 .brand {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   font-weight: 700;
   letter-spacing: 0.3em;
   color: var(--text);
@@ -45,7 +45,7 @@
 }
 
 .intro {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   line-height: 1.6;
   letter-spacing: 0.02em;
   color: var(--text);
@@ -66,7 +66,7 @@
 }
 
 .featureIcon {
-  font-size: 14px;
+  font-size: var(--fs-lg);
   color: var(--accent);
   flex-shrink: 0;
   width: 20px;
@@ -74,7 +74,7 @@
 }
 
 .featureText {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.03em;
   color: var(--text);
 }
@@ -87,7 +87,7 @@
 }
 
 .shortcutsLabel {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.22em;
   color: var(--text-dim);
@@ -103,7 +103,7 @@
 }
 
 .key {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--accent);
@@ -114,7 +114,7 @@
 }
 
 .keyDesc {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.03em;
   color: var(--text-dim);
 }
@@ -124,7 +124,7 @@
 .startBtn {
   width: 100%;
   font-family: var(--font);
-  font-size: 11px;
+  font-size: var(--fs-sm);
   font-weight: 700;
   letter-spacing: 0.2em;
   padding: 16px 0;

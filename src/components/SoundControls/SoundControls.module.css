@@ -16,7 +16,7 @@
 }
 
 .rowLabel {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.22em;
   color: var(--text-dim);
@@ -24,7 +24,7 @@
 
 .toggle {
   font-family: var(--font);
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.15em;
   padding: 3px 10px;
@@ -60,7 +60,7 @@
 .noiseBtn {
   position: relative;
   font-family: var(--font);
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.18em;
   padding: 13px 4px;
@@ -106,7 +106,7 @@
   position: absolute;
   top: 3px;
   right: 4px;
-  font-size: 6px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.08em;
   color: var(--text-dim);
   opacity: 0.7;
@@ -137,7 +137,7 @@
 
 .mixBtn {
   font-family: var(--font);
-  font-size: 7px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.12em;
   padding: 4px 7px;
@@ -200,7 +200,7 @@
 }
 
 .volumeValue {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.1em;
   color: var(--text-dim);

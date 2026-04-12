@@ -1,5 +1,5 @@
 .tip {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   line-height: 1.5;
   letter-spacing: 0.02em;
   color: var(--text-dim);

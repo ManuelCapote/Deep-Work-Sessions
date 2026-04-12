@@ -10,7 +10,7 @@
 }
 
 .label {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.2em;
   color: var(--text-dim);
@@ -36,7 +36,7 @@
 }
 
 .cycles {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--accent);
@@ -44,7 +44,7 @@
 }
 
 .count {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   font-weight: 400;
   color: var(--text-dim);
   letter-spacing: 0.1em;

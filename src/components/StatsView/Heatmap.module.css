@@ -17,7 +17,7 @@
 
 .monthLabel {
   width: 12px;
-  font-size: 7px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--text-dim);
@@ -41,7 +41,7 @@
 
 .dayLabel {
   height: 12px;
-  font-size: 7px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--text-dim);

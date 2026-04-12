@@ -26,14 +26,14 @@
 }
 
 .panelTitle {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 0.25em;
   color: var(--text);
 }
 
 .closeBtn {
-  font-size: 18px;
+  font-size: var(--fs-xl);
   line-height: 1;
   background: none;
   border: none;
@@ -64,7 +64,7 @@
 }
 
 .sectionLabel {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.22em;
   color: var(--text-dim);
@@ -91,7 +91,7 @@
 }
 
 .stepperLabel {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.04em;
   color: var(--text);
 }
@@ -104,7 +104,7 @@
 
 .stepBtn {
   font-family: var(--font);
-  font-size: 14px;
+  font-size: var(--fs-lg);
   font-weight: 700;
   width: 26px;
   height: 26px;
@@ -130,7 +130,7 @@
 }
 
 .stepValue {
-  font-size: 16px;
+  font-size: var(--fs-lg);
   font-weight: 700;
   color: var(--text);
   min-width: 28px;
@@ -139,7 +139,7 @@
 }
 
 .stepSuffix {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-weight: 400;
   color: var(--text-dim);
   margin-left: 1px;
@@ -155,14 +155,14 @@
 }
 
 .toggleLabel {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.04em;
   color: var(--text);
 }
 
 .toggleBtn {
   font-family: var(--font);
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.15em;
   padding: 3px 10px;
@@ -188,7 +188,7 @@
 .themeBtn {
   flex: 1;
   font-family: var(--font);
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.15em;
   padding: 8px 0;
@@ -229,7 +229,7 @@
 }
 
 .sliderLabel {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.04em;
   color: var(--text);
   min-width: 52px;
@@ -266,7 +266,7 @@
 }
 
 .sliderValue {
-  font-size: 10px;
+  font-size: var(--fs-xs);
   font-variant-numeric: tabular-nums;
   color: var(--text-dim);
   min-width: 22px;

@@ -22,14 +22,14 @@
 }
 
 .sectionLabel {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.22em;
   color: var(--text-dim);
 }
 
 .sectionCount {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 400;
   letter-spacing: 0.1em;
   color: var(--text-dim);
@@ -43,7 +43,7 @@
 
 .nameInput {
   font-family: var(--font);
-  font-size: 13px;
+  font-size: var(--fs-md);
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--text);
@@ -71,7 +71,7 @@
 
 .stepBtn {
   font-family: var(--font);
-  font-size: 14px;
+  font-size: var(--fs-lg);
   font-weight: 700;
   width: 28px;
   height: 28px;
@@ -97,7 +97,7 @@
 }
 
 .stepValue {
-  font-size: 20px;
+  font-size: var(--fs-2xl);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -106,7 +106,7 @@
 }
 
 .stepHint {
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.12em;
   color: var(--text-dim);
   margin-left: 4px;
@@ -135,14 +135,14 @@
 }
 
 .taskBullet {
-  font-size: 11px;
+  font-size: var(--fs-sm);
   color: var(--text-dim);
   flex-shrink: 0;
 }
 
 .taskText {
   flex: 1;
-  font-size: 11px;
+  font-size: var(--fs-sm);
   letter-spacing: 0.03em;
   color: var(--text);
   min-width: 0;
@@ -150,7 +150,7 @@
 }
 
 .taskDelete {
-  font-size: 14px;
+  font-size: var(--fs-lg);
   line-height: 1;
   color: var(--text-dim);
   background: none;
@@ -175,7 +175,7 @@
 .addInput {
   flex: 1;
   font-family: var(--font);
-  font-size: 10px;
+  font-size: var(--fs-xs);
   letter-spacing: 0.06em;
   color: var(--text);
   background: none;
@@ -190,7 +190,7 @@
 
 .addBtn {
   font-family: var(--font);
-  font-size: 9px;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   letter-spacing: 0.2em;
   padding: 10px 14px;
@@ -215,7 +215,7 @@
 
 .startBtn {
   font-family: var(--font);
-  font-size: 11px;
+  font-size: var(--fs-sm);
   font-weight: 700;
   letter-spacing: 0.2em;
   padding: 16px 0;
