@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { playBeep } from '../utils/audio';
 
-export type Mode = 'pomodoro' | 'short' | 'long';
+export type Mode = 'focus' | 'rest';
 
 const DEFAULT_DURATIONS: Record<Mode, number> = {
-  pomodoro: 25 * 60,
-  short: 5 * 60,
-  long: 15 * 60,
+  focus: 25 * 60,
+  rest: 5 * 60,
 };
 
 export interface TimerConfig {
@@ -31,28 +30,25 @@ export interface TimerActions {
 
 export function useTimer(config?: TimerConfig): TimerState & TimerActions {
   const durations: Record<Mode, number> = {
-    pomodoro: config?.durations?.pomodoro ?? DEFAULT_DURATIONS.pomodoro,
-    short: config?.durations?.short ?? DEFAULT_DURATIONS.short,
-    long: config?.durations?.long ?? DEFAULT_DURATIONS.long,
+    focus: config?.durations?.focus ?? DEFAULT_DURATIONS.focus,
+    rest: config?.durations?.rest ?? DEFAULT_DURATIONS.rest,
   };
 
-  const [mode, setModeState] = useState<Mode>('pomodoro');
-  const [secondsLeft, setSecondsLeft] = useState(durations.pomodoro);
+  const [mode, setModeState] = useState<Mode>('focus');
+  const [secondsLeft, setSecondsLeft] = useState(durations.focus);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionCount, setSessionCount] = useState(0);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number | null>(null);
-  const startSecondsRef = useRef<number>(durations.pomodoro);
-  const modeRef = useRef<Mode>('pomodoro');
+  const startSecondsRef = useRef<number>(durations.focus);
+  const modeRef = useRef<Mode>('focus');
   const autoAdvanceRef = useRef(config?.autoAdvance ?? false);
   const autoAdvanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const sessionCountRef = useRef(0);
   const durationsRef = useRef(durations);
 
   // Keep refs in sync
   useEffect(() => { autoAdvanceRef.current = config?.autoAdvance ?? false; }, [config?.autoAdvance]);
-  useEffect(() => { sessionCountRef.current = sessionCount; }, [sessionCount]);
   useEffect(() => { durationsRef.current = durations; });
 
   // Update secondsLeft when duration changes for current mode (only when idle)
@@ -128,19 +124,14 @@ export function useTimer(config?: TimerConfig): TimerState & TimerActions {
         playBeep();
 
         const completedMode = modeRef.current;
-        if (completedMode === 'pomodoro') {
+        if (completedMode === 'focus') {
           setSessionCount(prev => prev + 1);
         }
 
         // Auto-advance with a short pause
         if (autoAdvanceRef.current) {
           autoAdvanceTimerRef.current = setTimeout(() => {
-            let nextMode: Mode;
-            if (completedMode === 'pomodoro') {
-              nextMode = (sessionCountRef.current) % 4 === 0 ? 'long' : 'short';
-            } else {
-              nextMode = 'pomodoro';
-            }
+            const nextMode: Mode = completedMode === 'focus' ? 'rest' : 'focus';
             setModeState(nextMode);
             modeRef.current = nextMode;
             const dur = durationsRef.current[nextMode];
@@ -164,7 +155,7 @@ export function useTimer(config?: TimerConfig): TimerState & TimerActions {
   useEffect(() => {
     const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
     const ss = String(secondsLeft % 60).padStart(2, '0');
-    const modeLabel = mode === 'pomodoro' ? 'WORK' : mode === 'short' ? 'SHORT' : 'LONG';
+    const modeLabel = mode === 'focus' ? 'FOCUS' : 'REST';
     document.title = `${mm}:${ss} — ${modeLabel}`;
     return () => { document.title = 'POMODORO'; };
   }, [secondsLeft, mode]);

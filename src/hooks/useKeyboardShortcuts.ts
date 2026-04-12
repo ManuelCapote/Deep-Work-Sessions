@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 interface Actions {
   toggleTimer: () => void;
   reset: () => void;
-  setModeWork: () => void;
-  setModeShort: () => void;
-  setModeLong: () => void;
+  setModeFocus: () => void;
+  setModeRest: () => void;
+  toggleZen: () => void;
 }
 
 export function useKeyboardShortcuts(actions: Actions) {
@@ -25,13 +25,13 @@ export function useKeyboardShortcuts(actions: Actions) {
           actions.reset();
           break;
         case 'Digit1':
-          actions.setModeWork();
+          actions.setModeFocus();
           break;
         case 'Digit2':
-          actions.setModeShort();
+          actions.setModeRest();
           break;
-        case 'Digit3':
-          actions.setModeLong();
+        case 'KeyZ':
+          actions.toggleZen();
           break;
       }
     }

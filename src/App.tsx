@@ -19,6 +19,8 @@ import { SettingsPanel } from './components/SettingsPanel/SettingsPanel';
 import { StatsView } from './components/StatsView/StatsView';
 import { FocusTip } from './components/FocusTip/FocusTip';
 import { Onboarding } from './components/Onboarding/Onboarding';
+import { QuickNotes } from './components/QuickNotes/QuickNotes';
+import { useQuickNotes } from './hooks/useQuickNotes';
 import styles from './App.module.css';
 
 function useIsLandscape(): boolean {
@@ -41,9 +43,9 @@ function App() {
 
   const {
     settings,
-    setWorkDuration, setShortBreakDuration, setLongBreakDuration,
+    setWorkDuration, setShortBreakDuration,
     setAutoAdvance, setTheme, setNotificationsEnabled,
-    setMasterVolume, setTickVolume, setFocusMode, setAvailableTags, setDailyGoal, setOnboardingDismissed,
+    setMasterVolume, setTickVolume, setFocusMode, setZenMode, setAvailableTags, setDailyGoal, setOnboardingDismissed,
   } = useSettings();
 
   const {
@@ -51,9 +53,8 @@ function App() {
     start, pause, reset, setMode,
   } = useTimer({
     durations: {
-      pomodoro: settings.workDuration,
-      short: settings.shortBreakDuration,
-      long: settings.longBreakDuration,
+      focus: settings.workDuration,
+      rest: settings.shortBreakDuration,
     },
     autoAdvance: settings.autoAdvance,
   });
@@ -74,13 +75,15 @@ function App() {
 
   const { notify } = useNotifications(settings.notificationsEnabled);
 
+  const { notes: quickNotes, setNotes: setQuickNotes, clear: clearQuickNotes } = useQuickNotes();
+
   // Notify on timer completion
   useEffect(() => {
     if (secondsLeft === 0 && !isRunning) {
-      if (mode === 'pomodoro') {
-        notify('Work session complete!', 'Time for a break.');
+      if (mode === 'focus') {
+        notify('Focus session complete!', 'Time to rest.');
       } else {
-        notify('Break is over!', 'Ready to focus?');
+        notify('Rest is over!', 'Ready to focus?');
       }
     }
   }, [secondsLeft, isRunning, mode, notify]);
@@ -109,47 +112,71 @@ function App() {
   const shortcutActions = useMemo(() => ({
     toggleTimer,
     reset,
-    setModeWork: () => setMode('pomodoro'),
-    setModeShort: () => setMode('short'),
-    setModeLong: () => setMode('long'),
-  }), [toggleTimer, reset, setMode]);
+    setModeFocus: () => setMode('focus'),
+    setModeRest: () => setMode('rest'),
+    toggleZen: () => setZenMode(!settings.zenMode),
+  }), [toggleTimer, reset, setMode, setZenMode, settings.zenMode]);
 
   useKeyboardShortcuts(shortcutActions);
 
   // Focus mode: hide non-essential UI when timer is running
   const inFocusMode = settings.focusMode && isRunning;
 
+  // Zen mode: manual toggle, hides everything except TimerDisplay + Controls
+  const inZenMode = settings.zenMode;
+
   // In landscape: timer is always visible (never hide it)
-  const hideTimer = !inFocusMode && !isLandscape && activeTab !== 'timer';
+  const hideTimer = !inFocusMode && !inZenMode && !isLandscape && activeTab !== 'timer';
 
   // Next mode indicator for auto-advance
-  const nextModeLabel = mode === 'pomodoro'
-    ? ((sessionCount + 1) % 4 === 0 ? 'LONG BREAK' : 'SHORT BREAK')
-    : 'WORK';
+  const nextModeLabel = mode === 'focus' ? 'REST' : 'FOCUS';
 
   return (
-    <main className={`${styles.main} ${inFocusMode ? styles.focusMode : ''}`}>
+    <main
+      className={`${styles.main} ${inFocusMode ? styles.focusMode : ''} ${inZenMode ? styles.zenMode : ''}`}
+    >
 
-      <header className={styles.header}>
-        <span className={styles.brand}>TE POMODORO</span>
-        <div className={styles.headerRight}>
-          <button
-            className={styles.gearBtn}
-            onClick={() => setSettingsOpen(v => !v)}
-            aria-label="Settings"
-          >
-            &#9881;
-          </button>
-          <span className={styles.version}>v1.0</span>
-        </div>
-      </header>
+      {!inZenMode && (
+        <header className={styles.header}>
+          <span className={styles.brand}>TE POMODORO</span>
+          <div className={styles.headerRight}>
+            <button
+              className={styles.zenBtn}
+              onClick={() => setZenMode(true)}
+              aria-label="Enter zen mode"
+              title="Zen mode (Z)"
+            >
+              ZEN
+            </button>
+            <button
+              className={styles.iconBtn}
+              onClick={() => setSettingsOpen(v => !v)}
+              aria-label="Settings"
+              title="Settings"
+            >
+              &#9881;
+            </button>
+            <span className={styles.version}>v1.0</span>
+          </div>
+        </header>
+      )}
+
+      {inZenMode && (
+        <button
+          className={styles.zenExit}
+          onClick={() => setZenMode(false)}
+          aria-label="Exit zen mode"
+          title="Exit zen mode (Z)"
+        >
+          &times;
+        </button>
+      )}
 
       {settingsOpen && (
         <SettingsPanel
           settings={settings}
           onSetWorkDuration={setWorkDuration}
           onSetShortBreakDuration={setShortBreakDuration}
-          onSetLongBreakDuration={setLongBreakDuration}
           onSetAutoAdvance={setAutoAdvance}
           onSetTheme={setTheme}
           onSetNotificationsEnabled={setNotificationsEnabled}
@@ -166,7 +193,7 @@ function App() {
       )}
 
       {/* TabSwitcher spans full width in both orientations */}
-      {!inFocusMode && (
+      {!inFocusMode && !inZenMode && (
         <div className={styles.tabWrap}>
           <TabSwitcher activeTab={activeTab} onSetTab={setActiveTab} />
         </div>
@@ -186,14 +213,21 @@ function App() {
           onPause={pause}
           onReset={reset}
         />
-        {settings.autoAdvance && isRunning && (
+        {inZenMode && (
+          <QuickNotes
+            value={quickNotes}
+            onChange={setQuickNotes}
+            onClear={clearQuickNotes}
+          />
+        )}
+        {!inZenMode && settings.autoAdvance && isRunning && (
           <div className={styles.nextUp}>NEXT: {nextModeLabel}</div>
         )}
-        {isRunning && <FocusTip sessionCount={sessionCount} />}
+        {!inZenMode && isRunning && <FocusTip sessionCount={sessionCount} />}
       </div>
 
       {/* RIGHT PANE — secondary content, driven by active tab */}
-      <div className={`${styles.rightPane} ${inFocusMode ? styles.hidden : ''}`}>
+      <div className={`${styles.rightPane} ${inFocusMode || inZenMode ? styles.hidden : ''}`}>
         {activeTab === 'timer' && (
           <>
             <SessionCounter sessionCount={sessionCount} />

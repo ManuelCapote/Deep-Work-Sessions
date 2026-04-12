@@ -6,13 +6,13 @@ const STORAGE_KEY = 'te-pomodoro-settings';
 const DEFAULTS: Settings = {
   workDuration: 25 * 60,
   shortBreakDuration: 5 * 60,
-  longBreakDuration: 15 * 60,
   autoAdvance: false,
   theme: 'auto',
   notificationsEnabled: false,
   masterVolume: 0.2,
   tickVolume: 0.07,
   focusMode: false,
+  zenMode: false,
   availableTags: ['work', 'study', 'personal', 'coding', 'writing', 'reading'],
   dailyGoal: 0,
   onboardingDismissed: false,
@@ -45,16 +45,13 @@ export function useSettings() {
     update('shortBreakDuration', Math.max(1, Math.min(30, mins)) * 60);
   }, [update]);
 
-  const setLongBreakDuration = useCallback((mins: number) => {
-    update('longBreakDuration', Math.max(1, Math.min(30, mins)) * 60);
-  }, [update]);
-
   const setAutoAdvance = useCallback((v: boolean) => update('autoAdvance', v), [update]);
   const setTheme = useCallback((v: Settings['theme']) => update('theme', v), [update]);
   const setNotificationsEnabled = useCallback((v: boolean) => update('notificationsEnabled', v), [update]);
   const setMasterVolume = useCallback((v: number) => update('masterVolume', Math.max(0, Math.min(1, v))), [update]);
   const setTickVolume = useCallback((v: number) => update('tickVolume', Math.max(0, Math.min(1, v))), [update]);
   const setFocusMode = useCallback((v: boolean) => update('focusMode', v), [update]);
+  const setZenMode = useCallback((v: boolean) => update('zenMode', v), [update]);
   const setAvailableTags = useCallback((tags: string[]) => update('availableTags', tags), [update]);
   const setDailyGoal = useCallback((n: number) => update('dailyGoal', Math.max(0, Math.min(20, n))), [update]);
   const setOnboardingDismissed = useCallback((v: boolean) => update('onboardingDismissed', v), [update]);
@@ -63,13 +60,13 @@ export function useSettings() {
     settings,
     setWorkDuration,
     setShortBreakDuration,
-    setLongBreakDuration,
     setAutoAdvance,
     setTheme,
     setNotificationsEnabled,
     setMasterVolume,
     setTickVolume,
     setFocusMode,
+    setZenMode,
     setAvailableTags,
     setDailyGoal,
     setOnboardingDismissed,

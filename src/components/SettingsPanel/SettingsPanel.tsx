@@ -5,7 +5,6 @@ interface Props {
   settings: Settings;
   onSetWorkDuration: (mins: number) => void;
   onSetShortBreakDuration: (mins: number) => void;
-  onSetLongBreakDuration: (mins: number) => void;
   onSetAutoAdvance: (v: boolean) => void;
   onSetTheme: (v: Settings['theme']) => void;
   onSetNotificationsEnabled: (v: boolean) => void;
@@ -85,7 +84,6 @@ export function SettingsPanel({
   settings,
   onSetWorkDuration,
   onSetShortBreakDuration,
-  onSetLongBreakDuration,
   onSetAutoAdvance,
   onSetTheme,
   onSetNotificationsEnabled,
@@ -112,7 +110,7 @@ export function SettingsPanel({
           </div>
           <div className={styles.sectionBody}>
             <Stepper
-              label="Work"
+              label="Focus"
               value={Math.round(settings.workDuration / 60)}
               min={1}
               max={60}
@@ -120,20 +118,12 @@ export function SettingsPanel({
               onChange={onSetWorkDuration}
             />
             <Stepper
-              label="Short break"
+              label="Rest"
               value={Math.round(settings.shortBreakDuration / 60)}
               min={1}
               max={30}
               suffix="m"
               onChange={onSetShortBreakDuration}
-            />
-            <Stepper
-              label="Long break"
-              value={Math.round(settings.longBreakDuration / 60)}
-              min={1}
-              max={30}
-              suffix="m"
-              onChange={onSetLongBreakDuration}
             />
           </div>
         </section>

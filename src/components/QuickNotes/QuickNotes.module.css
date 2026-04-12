@@ -1,0 +1,53 @@
+/* Minimal notes block. No borders, no surface — blends with the page
+   background so it reads as loose text sitting outside the timer card. */
+
+.container {
+  position: relative;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.textarea {
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 2px;
+  width: 100%;
+  min-height: 140px;
+  resize: vertical;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.textarea::placeholder {
+  color: var(--text-dim);
+  opacity: 0.7;
+}
+
+/* Discreet clear button floats in the top-right only when there's content. */
+.clearBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 4px 6px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.clearBtn:hover {
+  opacity: 1;
+  color: var(--accent);
+}

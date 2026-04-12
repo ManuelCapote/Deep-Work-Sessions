@@ -1,8 +1,7 @@
 export interface Settings {
   // Timer
-  workDuration: number;       // seconds
-  shortBreakDuration: number; // seconds
-  longBreakDuration: number;  // seconds
+  workDuration: number;       // seconds — Focus mode
+  shortBreakDuration: number; // seconds — Rest mode
   autoAdvance: boolean;
 
   // Theme
@@ -20,6 +19,10 @@ export interface Settings {
 
   // Focus
   focusMode: boolean;
+
+  // Zen mode — hides everything except the timer + controls.
+  // Unlike focusMode (auto-on-run), zen is manual and persistent.
+  zenMode: boolean;
 
   // Goals
   dailyGoal: number; // 0 = disabled

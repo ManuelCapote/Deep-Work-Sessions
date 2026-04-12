@@ -304,8 +304,15 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0 2px;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  /* Negative margin cancels the row's padding so the row height doesn't
+     explode while the button itself still has a full 44px hit target. */
+  margin: calc((var(--touch-min) - 1.25rem) / -2) 0;
   transition: color 0.1s;
 }
 

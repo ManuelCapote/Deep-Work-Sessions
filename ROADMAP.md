@@ -35,6 +35,35 @@
 - Focus mode (hide UI while timer runs)
 - Onboarding overlay
 
+### Phase 7 — Zen mode, Quick Notes, Focus/Rest rename, touch targets (2026-04-12)
+- **Zen mode** — new manual toggle (`Z` keyboard shortcut or `ZEN` button in
+  header) that hides header, tabs, right pane, FocusTip, and auto-advance
+  label. Shows only ModeSelector + TimerDisplay + Controls + QuickNotes,
+  centered in a single narrow column. Persisted in `useSettings` as
+  `zenMode`. Exit via `×` floating button (top-right, safe-area aware) or
+  toggle again.
+- **QuickNotes** — transparent, borderless textarea shown below the timer
+  in zen mode, backed by a new `useQuickNotes` hook + localStorage key
+  `te-pomodoro-quick-notes`. Designed to blend with the page background.
+  Free-form plain text — no markdown (tried markdown via `react-markdown`
+  + `remark-gfm`, reverted to keep bundle lean).
+- **Mode rename** — `Work / Short / Long` → `Focus / Rest` (Long break
+  removed). Mode type internally renamed `'pomodoro' | 'short' | 'long'`
+  → `'focus' | 'rest'`. Settings panel, keyboard shortcuts, notifications,
+  document title, and auto-advance all updated. `longBreakDuration`
+  removed from `Settings` type and `useSettings`.
+- **Touch targets** — `.gearBtn` → `.iconBtn`, grew to 44×44 via
+  `min-width/height: var(--touch-min)`. Same pattern applied to
+  `closeBtn` (SettingsPanel), `todoDelete` (SessionsView), `taskDelete`
+  (PlanningView). Slider thumbs: 12-14px → 20px in SettingsPanel and
+  SoundControls. Header padding reduced 12px → 4px to keep the header
+  from ballooning around the new 44px buttons.
+- **iOS / PWA polish** — `viewport-fit=cover`, `env(safe-area-inset-*)`
+  padding on `.main` (phone tier), dual `theme-color` meta tags for
+  light/dark, fixed `apple-touch-icon` href (was pointing to a
+  non-existent `.png`), `color-scheme: light dark` on `:root` for
+  correct form-control rendering in dark mode.
+
 ### Phase 6 — Responsive layout overhaul (2026-04-12)
 - Width-based responsive tiers replacing orientation-only breakpoints:
   phone (< 720px) → tablet portrait (720–819px, 600px column) → two-column
@@ -85,4 +114,4 @@
 - SoundControls ambient grid border rules assume a fixed 10-item `NOISE_OPTIONS`; adding/removing options changes the last-row count and may require revisiting `:last-child` logic
 
 ## Version history
-- `0.4.0` — current; Phases 0–6 complete
+- `0.4.0` — current; Phases 0–7 complete

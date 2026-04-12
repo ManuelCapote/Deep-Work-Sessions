@@ -7,9 +7,8 @@ interface Props {
 }
 
 const MODES: { key: Mode; label: string }[] = [
-  { key: 'pomodoro', label: 'WORK' },
-  { key: 'short', label: 'SHORT' },
-  { key: 'long', label: 'LONG' },
+  { key: 'focus', label: 'FOCUS' },
+  { key: 'rest', label: 'REST' },
 ];
 
 export function ModeSelector({ mode, onSetMode }: Props) {
