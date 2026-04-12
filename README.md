@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# TE Pomodoro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A feature-rich Pomodoro timer web app built with React 19, TypeScript, and Vite. Installable as a PWA, works offline, and includes session tracking, planning, stats, and ambient sound.
 
-Currently, two official plugins are available:
+**Current version:** 0.4.0 — five development phases shipped (core UX, analytics, productivity features, PWA, ambient sound/focus mode).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Timer** — Pomodoro / short break / long break with auto-advance
+- **Planning** — Plan a session (target pomodoros + task list) before starting
+- **Sessions** — Track active + archived sessions with todos, tags, notes, and distractions
+- **Stats** — Daily-goal progress and historical analytics
+- **Sound** — Tick sound, ambient noise, lo-fi mixes with master/tick volume
+- **Focus mode** — Hide non-essential UI while the timer runs
+- **PWA** — Installable, offline-capable via service worker
+- **Keyboard shortcuts**, notifications, light/dark/auto theme, onboarding
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- React 19 + TypeScript
+- Vite 8
+- CSS Modules (no UI library)
+- `localStorage` for persistence (no backend)
+- Service worker + Web App Manifest for PWA
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev       # start dev server
+npm run build     # typecheck + production build
+npm run lint      # eslint
+npm run preview   # preview production build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Node 20+ recommended.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project layout
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+  App.tsx              # composition root — wires hooks → components
+  components/          # one folder per component (CSS Module + .tsx)
+  hooks/               # all state & side effects live here
+  utils/               # pure helpers (audio, stats, export, tips, lofi)
+  types/               # shared TypeScript types
+public/                # PWA manifest, icons, service worker
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for how the pieces fit together, and [ROADMAP.md](ROADMAP.md) for what's shipped and what's next.

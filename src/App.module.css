@@ -1,6 +1,13 @@
-/* ── Portrait (base) ─────────────────────────────────────────────────────────
-   Single column, 360px wide. Wrapper divs are transparent block children;
-   their component children stack and connect via border-top: none.
+/* ── Responsive strategy ─────────────────────────────────────────────────────
+   Three tiers, driven by viewport WIDTH (not orientation):
+
+     < 720px            Phone — single column, max 480–520px
+     720–819px portrait Tablet portrait — wider single column (600px)
+     ≥ 820px            Two-column grid (works landscape & tablet portrait)
+     ≥ 1200px           Large desktop — more generous dimensions
+
+   Orientation media queries are reserved for content polish (e.g. shorter
+   timer in landscape phones) — they do NOT drive the layout tier anymore.
 ───────────────────────────────────────────────────────────────────────────── */
 
 .main {
@@ -11,10 +18,12 @@
   overflow: hidden;
 }
 
-@media (min-width: 768px) and (orientation: portrait) {
-  .main {
-    width: min(100%, 560px);
-  }
+@media (min-width: 480px) and (orientation: portrait) {
+  .main { width: min(100%, 520px); }
+}
+
+@media (min-width: 720px) and (max-width: 819px) and (orientation: portrait) {
+  .main { width: min(100%, 600px); }
 }
 
 .header {
@@ -85,15 +94,15 @@
   background-color: var(--surface);
 }
 
-/* Wrapper divs have no visual style — they're plain block containers.
-   In portrait they just stack as flex children of .main. */
+/* ── Pane wrappers ────────────────────────────────────────────────────────── */
+
 .tabWrap,
 .leftPane,
 .rightPane {
   display: block;
 }
 
-/* In portrait, rightPane absorbs remaining height and scrolls internally */
+/* Portrait: rightPane absorbs remaining height and scrolls internally */
 .rightPane {
   flex: 1;
   min-height: 0;
@@ -104,48 +113,48 @@
   display: none;
 }
 
-/* ── Landscape ───────────────────────────────────────────────────────────────
-   Two-column grid when viewport is wider than tall.
-   Header + TabSwitcher row span both columns.
-   Left: timer (always visible). Right: tab-driven content.
-───────────────────────────────────────────────────────────────────────────── */
+/* ── Two-column grid: ≥ 820px (landscape phones, tablets, desktop) ──────── */
 
-@media (orientation: landscape) and (min-width: 600px) {
+@media (min-width: 820px) {
+  /* ── Two-column layout via flex-wrap ──
+     Using `display: flex; flex-wrap: wrap` instead of CSS Grid because
+     we need the card's height to equal the right pane's NATURAL content
+     height — no fixed card height, no fixed grid row. Flex lines with
+     `align-content: flex-start` size to their own content, and items
+     within a line stretch to the tallest item via default align-items:
+     stretch. So the pane line's height = max(left content, right content),
+     and the shorter pane (left) stretches to match. */
   .main {
-    width: min(900px, 98vw);
-    height: min(580px, 98vh);
-    display: grid;
-    grid-template-areas:
-      "header header"
-      "tabs   tabs"
-      "left   right";
-    grid-template-columns: 340px 1fr;
-    grid-template-rows: auto auto 1fr;
+    width: min(1100px, 96vw);
+    max-height: 94vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
     overflow: hidden;
   }
 
-  .header  { grid-area: header; }
-
+  .header,
   .tabWrap {
-    grid-area: tabs;
+    width: 100%;
   }
 
   .leftPane {
-    grid-area: left;
+    flex: 0 0 360px;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    overflow-y: auto;
-    border-bottom: 1px solid var(--border-dark);
   }
 
   .rightPane {
-    grid-area: right;
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    overflow-y: auto;
-    border-bottom: 1px solid var(--border-dark);
+  }
+
+  /* At ≥820px the timer is always visible — override the JS-applied
+     .hidden from portrait mode where the left pane hides on non-timer tabs. */
+  .leftPane.hidden {
+    display: flex;
   }
 
   /* Collapse the double border at the column seam into a single 1px line. */
@@ -153,9 +162,36 @@
     border-left: none;
   }
 
-  /* Pane containers provide the bottom border; last child doesn't need one. */
-  .leftPane > :global(:last-child),
-  .rightPane > :global(:last-child) {
-    border-bottom: none;
+  /* ── Left pane: grow the TimerDisplay to fill available height ──
+     TimerDisplay is the 2nd child of .leftPane (after ModeSelector, before
+     Controls). We make its wrapper a flex column, grow it, and then grow
+     its first child (.display — the surface holding the big time text)
+     while keeping the 2nd child (.progressTrack) at its natural 2px height. */
+  .leftPane > :global(*:nth-child(2)) {
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .leftPane > :global(*:nth-child(2)) > :global(*:first-child) {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Right pane now sizes the grid row naturally — no spacer needed. */
+}
+
+/* ── Large desktop: give the grid more room ──────────────────────────────── */
+
+@media (min-width: 1200px) {
+  .main {
+    width: min(1200px, 92vw);
+    max-height: 92vh;
+  }
+  .leftPane {
+    flex: 0 0 400px;
   }
 }

@@ -66,12 +66,17 @@
   100% { transform: scale(1); }
 }
 
-@media (orientation: landscape) {
+/* In the two-column grid (≥820px), the left pane grows the TimerDisplay
+   wrapper to fill available height. Make .display behave as a centering
+   flex container so the big time text stays vertically centered regardless
+   of how tall the pane becomes. */
+@media (min-width: 820px) {
   .display {
-    padding: 18px 24px 14px;
+    padding: 24px;
+    flex: 1 1 auto;
   }
   .time {
-    font-size: clamp(52px, 9vw, 80px);
+    font-size: clamp(64px, 8vw, 112px);
   }
 }
 

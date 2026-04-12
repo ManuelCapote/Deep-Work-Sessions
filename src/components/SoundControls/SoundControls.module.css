@@ -74,17 +74,20 @@
   transition: color 0.1s, background-color 0.1s;
 }
 
-/* Remove right border on every 3rd item */
+/* Remove right border on every 3rd item (column 3) */
 .noiseBtn:nth-child(3n) {
   border-right: none;
 }
 
-/* Remove bottom border on last row */
-.noiseBtn:nth-last-child(-n+3) {
+/* Only the very last button strips its bottom border. With 10 items
+   (LO-FI alone in row 4), the items in row 3 (FIRE, BINARL) must keep
+   their bottom borders so LO-FI has a visible top seam across all three
+   columns of the grid, not just column 1. */
+.noiseBtn:last-child {
   border-bottom: none;
 }
 
-/* Single item on last row — also remove right border */
+/* Single item on the last row — also strip its right border */
 .noiseBtn:nth-child(3n+1):last-child {
   border-right: none;
 }
